@@ -13,12 +13,17 @@ local RestartButton = {
             text = "?restart the game?"
         }
 
-
+local music 
+local walking_sound
 
 
 function love.load()
     love.window.setTitle("Blueman")
     love.window.setMode(width, height, {resizable = true, vsync = true})
+    walking_sound = love.audio.newSource("Sounds/Walking.wav", "static") -- Load walking sound
+    music = love.audio.newSource("Sounds/MenuTheme.wav", "stream") -- Load music
+    music:setVolume(0.1) -- Set music volume
+    music:setLooping(true) -- Loop the music
     maze = {
         image = love.graphics.newImage("Maze.png"), -- Load Maze image
         x = 0,
@@ -58,16 +63,21 @@ end
 
 function love.update(dt)
     if not gameOver then
+        music:play() -- Play music
         if love.keyboard.isDown("up") then
         pacman.y = pacman.y - pacman.speed * dt
+        walking_sound:play() -- Play walking sound
     elseif love.keyboard.isDown("down") then
         pacman.y = pacman.y + pacman.speed * dt
+        walking_sound:play() -- Play walking sound
     end    
 
     if love.keyboard.isDown("left") then
         pacman.x = pacman.x - pacman.speed * dt
+        walking_sound:play() -- Play walking sound
     elseif love.keyboard.isDown("right") then
         pacman.x = pacman.x + pacman.speed * dt
+        walking_sound:play() -- Play walking sound
     end
 
     local dx = pacman.x -ghost.x
