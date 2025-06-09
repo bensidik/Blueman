@@ -19,6 +19,13 @@ local RestartButton = {
 function love.load()
     love.window.setTitle("Blueman")
     love.window.setMode(width, height, {resizable = true, vsync = true})
+    maze = {
+        image = love.graphics.newImage("Maze.png"), -- Load Maze image
+        x = 0,
+        y = 0,
+        width = width,
+        height = height
+    }
     pacman = {
         image = love.graphics.newImage("Pacman.png"), -- Load Blueman image
         x = 100,
@@ -96,7 +103,8 @@ function love.draw()
     love.graphics.print("Welcome to Blueman!", width/2, 0) -- Display a welcome message
     love.graphics.draw(pacman.image, pacman.x, pacman.y)
     love.graphics.draw(ghost.image, ghost.x, ghost.y)
-    
+    love.graphics.draw(maze.image, maze.x, maze.y, 0, maze.width / maze.image:getWidth(),maze.height / maze.image:getHeight())
+    love.graphics.setColor(1, 1, 1) -- Reset color to white
     for _, dot in ipairs(dots) do
         if not dot.collected then
             love.graphics.draw(DotImage, dot.x, dot.y)
@@ -104,6 +112,7 @@ function love.draw()
     end
     love.graphics.print("Score: " .. score, 10, 10)
     if gameOver then
+        love.graphics.setBackgroundColor(0, 0, 0) -- Set background color to black
         love.graphics.setColor(1, 0, 0) -- Display game over message in red
         love.graphics.printf("GAME OVER!!!!!", width/2, height/2, 800, "center",
             0, 2, 2)
